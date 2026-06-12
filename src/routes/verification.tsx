@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/verification")({
+  validateSearch: z.object({ n: z.string().optional() }),
   head: () => ({
     meta: [
       { title: "Vérifier un diplôme — ISFI" },
