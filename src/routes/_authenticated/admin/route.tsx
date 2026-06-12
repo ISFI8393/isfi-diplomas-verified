@@ -21,13 +21,14 @@ export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminLayout,
 });
 
-const nav = [
+type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+const nav: NavItem[] = [
   { to: "/admin", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
   { to: "/admin/programs", label: "Formations", icon: BookOpen },
   { to: "/admin/students", label: "Étudiants", icon: GraduationCap },
   { to: "/admin/teachers", label: "Enseignants", icon: Users },
   { to: "/admin/diplomas", label: "Diplômes", icon: ScrollText },
-] as const;
+];
 
 function AdminLayout() {
   const { user, isAdmin, loading, signOut, refreshRoles } = useAuth();
