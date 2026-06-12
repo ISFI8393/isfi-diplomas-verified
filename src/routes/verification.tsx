@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useSearch } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/verification")({
+  validateSearch: z.object({ n: z.string().optional() }),
   head: () => ({
     meta: [
       { title: "Vérifier un diplôme — ISFI" },
@@ -59,11 +61,24 @@ function formatDate(d: string | null) {
 }
 
 function VerificationPage() {
-  const [numero, setNumero] = useState("");
+  const { n } = useSearch({ from: "/verification" });
+  const [numero, setNumero] = useState(n ?? "");
   const [nom, setNom] = useState("");
   const [result, setResult] = useState<DiplomaResult | null>(null);
   const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error">("idle");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (n && n.trim()) {
+      // auto-submit when arriving from a QR scan
+      setNumero(n);
+      setTimeout(() => {
+        const form = document.querySelector("form");
+        form?.requestSubmit();
+      }, 100);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
