@@ -119,8 +119,8 @@ function VerificationPage() {
           </span>
           <h1 className="mt-5 font-display text-4xl font-bold sm:text-5xl">Vérifier un diplôme</h1>
           <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/85">
-            Saisissez le numéro de diplôme ou le nom du diplômé. Vous pouvez également scanner le QR
-            Code imprimé sur le diplôme.
+            Saisissez le numéro exact du diplôme. Vous pouvez également scanner le QR Code
+            imprimé sur le diplôme.
           </p>
         </div>
       </section>
