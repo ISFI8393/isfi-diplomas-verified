@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      auth_audit_logs: {
+        Row: {
+          created_at: string
+          email: string | null
+          event: string
+          id: string
+          ip: string | null
+          metadata: Json | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          event: string
+          id?: string
+          ip?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          event?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       diplomas: {
         Row: {
           annee_academique: string | null
@@ -334,6 +367,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin_level: { Args: { _user_id: string }; Returns: boolean }
       verify_diploma: {
         Args: { p_numero: string }
         Returns: {
@@ -352,7 +386,13 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "teacher" | "student"
+      app_role:
+        | "super_admin"
+        | "admin"
+        | "scolarite"
+        | "verificateur"
+        | "teacher"
+        | "student"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -480,7 +520,14 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "teacher", "student"],
+      app_role: [
+        "super_admin",
+        "admin",
+        "scolarite",
+        "verificateur",
+        "teacher",
+        "student",
+      ],
     },
   },
 } as const
