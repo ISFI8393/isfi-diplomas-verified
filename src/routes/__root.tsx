@@ -11,8 +11,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { AuthProvider } from "@/hooks/useAuth";
-import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -84,6 +82,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "ISFI" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "ISFI Digital Campus" },
+      { name: "twitter:title", content: "ISFI Digital Campus" },
+      { property: "og:description", content: "Plateforme officielle de l'Institut Supérieur de Formation en Informatique." },
+      { name: "twitter:description", content: "Plateforme officielle de l'Institut Supérieur de Formation en Informatique." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1895b726-a395-4275-9de0-5783cd3165c8/id-preview-92cf5a40--35d82210-3819-473d-97c0-810aa32c4f0e.lovable.app-1781298814503.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1895b726-a395-4275-9de0-5783cd3165c8/id-preview-92cf5a40--35d82210-3819-473d-97c0-810aa32c4f0e.lovable.app-1781298814503.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -103,7 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>
@@ -120,10 +124,8 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Outlet />
-        <Toaster richColors position="top-right" />
-      </AuthProvider>
+      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <Outlet />
     </QueryClientProvider>
   );
 }
