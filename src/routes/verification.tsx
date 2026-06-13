@@ -63,7 +63,7 @@ function formatDate(d: string | null) {
 function VerificationPage() {
   const { n } = useSearch({ from: "/verification" });
   const [numero, setNumero] = useState(n ?? "");
-  const [nom, setNom] = useState("");
+  
   const [result, setResult] = useState<DiplomaResult | null>(null);
   const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error">("idle");
   const [loading, setLoading] = useState(false);
