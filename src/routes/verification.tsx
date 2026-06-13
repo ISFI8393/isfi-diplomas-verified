@@ -130,7 +130,7 @@ function VerificationPage() {
           onSubmit={onSubmit}
           className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-elegant)] sm:p-8"
         >
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4">
             <label className="block">
               <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Numéro du diplôme
@@ -141,20 +141,6 @@ function VerificationPage() {
                   value={numero}
                   onChange={(e) => setNumero(e.target.value)}
                   placeholder="ISFI-2017-150129"
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
-                />
-              </div>
-            </label>
-            <label className="block">
-              <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Nom et prénom
-              </span>
-              <div className="mt-2 flex items-center gap-2 rounded-lg border border-input bg-background px-3 py-2.5">
-                <User className="h-4 w-4 text-muted-foreground" />
-                <input
-                  value={nom}
-                  onChange={(e) => setNom(e.target.value)}
-                  placeholder="Optionnel"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
                 />
               </div>
