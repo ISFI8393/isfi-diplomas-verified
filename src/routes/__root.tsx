@@ -86,8 +86,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "ISFI Digital Campus" },
       { property: "og:description", content: "Plateforme officielle de l'Institut Supérieur de Formation en Informatique." },
       { name: "twitter:description", content: "Plateforme officielle de l'Institut Supérieur de Formation en Informatique." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1895b726-a395-4275-9de0-5783cd3165c8/id-preview-92cf5a40--35d82210-3819-473d-97c0-810aa32c4f0e.lovable.app-1781298814503.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1895b726-a395-4275-9de0-5783cd3165c8/id-preview-92cf5a40--35d82210-3819-473d-97c0-810aa32c4f0e.lovable.app-1781298814503.png" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/99dab494-f05f-4107-821b-3133fb1a3212/id-preview-9886d71c--35d82210-3819-473d-97c0-810aa32c4f0e.lovable.app-1781310997957.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/99dab494-f05f-4107-821b-3133fb1a3212/id-preview-9886d71c--35d82210-3819-473d-97c0-810aa32c4f0e.lovable.app-1781310997957.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
