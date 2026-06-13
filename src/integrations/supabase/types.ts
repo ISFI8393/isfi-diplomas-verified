@@ -334,6 +334,22 @@ export type Database = {
         }
         Returns: boolean
       }
+      verify_diploma: {
+        Args: { p_numero: string }
+        Returns: {
+          annee_academique: string
+          date_delivrance: string
+          date_naissance: string
+          date_obtention: string
+          etablissement: string
+          mention: string
+          nom_complet: string
+          nom_diplome: string
+          numero_diplome: string
+          option: string
+          photo_url: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "teacher" | "student"
