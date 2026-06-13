@@ -83,44 +83,22 @@ function VerificationPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const key = numero.trim();
-    if (!key && !nom.trim()) return;
+    if (!key) return;
     setLoading(true);
     setStatus("idle");
     setResult(null);
 
     try {
-      let query = supabase
-        .from("diplomas")
-        .select(
-          "numero_diplome, nom_complet, date_naissance, nom_diplome, option, mention, annee_academique, etablissement, date_obtention, date_delivrance, photo_url"
-        )
-        .eq("is_valid", true)
-        .limit(1);
-
-      if (key) query = query.ilike("numero_diplome", key);
-      if (nom.trim()) query = query.ilike("nom_complet", `%${nom.trim()}%`);
-
-      const { data, error } = await query.maybeSingle();
+      const { data, error } = await supabase.rpc("verify_diploma", { p_numero: key });
 
       if (error) {
         console.error(error);
         setStatus("error");
-      } else if (data) {
-        setResult(data as DiplomaResult);
+      } else if (data && data.length > 0) {
+        setResult(data[0] as DiplomaResult);
         setStatus("found");
-        // Log la vérification (best-effort)
-        supabase
-          .from("verification_logs")
-          .insert({ numero_diplome: data.numero_diplome, success: true })
-          .then(() => {});
       } else {
         setStatus("not_found");
-        if (key) {
-          supabase
-            .from("verification_logs")
-            .insert({ numero_diplome: key, success: false })
-            .then(() => {});
-        }
       }
     } catch (err) {
       console.error(err);
