@@ -63,7 +63,7 @@ function formatDate(d: string | null) {
 function VerificationPage() {
   const { n } = useSearch({ from: "/verification" });
   const [numero, setNumero] = useState(n ?? "");
-  const [nom, setNom] = useState("");
+  
   const [result, setResult] = useState<DiplomaResult | null>(null);
   const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error">("idle");
   const [loading, setLoading] = useState(false);
@@ -83,44 +83,22 @@ function VerificationPage() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const key = numero.trim();
-    if (!key && !nom.trim()) return;
+    if (!key) return;
     setLoading(true);
     setStatus("idle");
     setResult(null);
 
     try {
-      let query = supabase
-        .from("diplomas")
-        .select(
-          "numero_diplome, nom_complet, date_naissance, nom_diplome, option, mention, annee_academique, etablissement, date_obtention, date_delivrance, photo_url"
-        )
-        .eq("is_valid", true)
-        .limit(1);
-
-      if (key) query = query.ilike("numero_diplome", key);
-      if (nom.trim()) query = query.ilike("nom_complet", `%${nom.trim()}%`);
-
-      const { data, error } = await query.maybeSingle();
+      const { data, error } = await supabase.rpc("verify_diploma", { p_numero: key });
 
       if (error) {
         console.error(error);
         setStatus("error");
-      } else if (data) {
-        setResult(data as DiplomaResult);
+      } else if (data && data.length > 0) {
+        setResult(data[0] as DiplomaResult);
         setStatus("found");
-        // Log la vérification (best-effort)
-        supabase
-          .from("verification_logs")
-          .insert({ numero_diplome: data.numero_diplome, success: true })
-          .then(() => {});
       } else {
         setStatus("not_found");
-        if (key) {
-          supabase
-            .from("verification_logs")
-            .insert({ numero_diplome: key, success: false })
-            .then(() => {});
-        }
       }
     } catch (err) {
       console.error(err);
@@ -141,8 +119,8 @@ function VerificationPage() {
           </span>
           <h1 className="mt-5 font-display text-4xl font-bold sm:text-5xl">Vérifier un diplôme</h1>
           <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/85">
-            Saisissez le numéro de diplôme ou le nom du diplômé. Vous pouvez également scanner le QR
-            Code imprimé sur le diplôme.
+            Saisissez le numéro exact du diplôme. Vous pouvez également scanner le QR Code
+            imprimé sur le diplôme.
           </p>
         </div>
       </section>
@@ -152,7 +130,7 @@ function VerificationPage() {
           onSubmit={onSubmit}
           className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-elegant)] sm:p-8"
         >
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4">
             <label className="block">
               <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Numéro du diplôme
@@ -163,20 +141,6 @@ function VerificationPage() {
                   value={numero}
                   onChange={(e) => setNumero(e.target.value)}
                   placeholder="ISFI-2017-150129"
-                  className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
-                />
-              </div>
-            </label>
-            <label className="block">
-              <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                Nom et prénom
-              </span>
-              <div className="mt-2 flex items-center gap-2 rounded-lg border border-input bg-background px-3 py-2.5">
-                <User className="h-4 w-4 text-muted-foreground" />
-                <input
-                  value={nom}
-                  onChange={(e) => setNom(e.target.value)}
-                  placeholder="Optionnel"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
                 />
               </div>
