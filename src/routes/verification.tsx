@@ -268,6 +268,19 @@ function DiplomaCard({ result }: { result: DiplomaResult }) {
               value={formatDate(result.date_delivrance)}
             />
           </dl>
+
+          {(result.diploma_pdf_url || result.pdf_url) && (
+            <div className="mt-6">
+              <a
+                href={(result.diploma_pdf_url ?? result.pdf_url) as string}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90"
+              >
+                <Download className="h-4 w-4" /> Télécharger le PDF du diplôme
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </article>
