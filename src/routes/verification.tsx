@@ -50,6 +50,8 @@ type DiplomaResult = {
   date_obtention: string;
   date_delivrance: string;
   photo_url: string | null;
+  pdf_url: string | null;
+  diploma_pdf_url: string | null;
 };
 
 function formatDate(d: string | null) {
