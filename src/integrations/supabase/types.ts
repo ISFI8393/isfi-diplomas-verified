@@ -54,6 +54,7 @@ export type Database = {
           date_delivrance: string
           date_naissance: string | null
           date_obtention: string
+          diploma_pdf_url: string | null
           etablissement: string
           id: string
           is_valid: boolean
@@ -75,6 +76,7 @@ export type Database = {
           date_delivrance?: string
           date_naissance?: string | null
           date_obtention: string
+          diploma_pdf_url?: string | null
           etablissement?: string
           id?: string
           is_valid?: boolean
@@ -96,6 +98,7 @@ export type Database = {
           date_delivrance?: string
           date_naissance?: string | null
           date_obtention?: string
+          diploma_pdf_url?: string | null
           etablissement?: string
           id?: string
           is_valid?: boolean
@@ -375,12 +378,14 @@ export type Database = {
           date_delivrance: string
           date_naissance: string
           date_obtention: string
+          diploma_pdf_url: string
           etablissement: string
           mention: string
           nom_complet: string
           nom_diplome: string
           numero_diplome: string
           option: string
+          pdf_url: string
           photo_url: string
         }[]
       }
