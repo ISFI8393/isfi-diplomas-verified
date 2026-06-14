@@ -15,6 +15,7 @@ import {
   Hash,
   User,
   Loader2,
+  Download,
 } from "lucide-react";
 
 export const Route = createFileRoute("/verification")({
