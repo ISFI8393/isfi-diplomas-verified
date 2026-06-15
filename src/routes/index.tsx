@@ -43,82 +43,126 @@ function HomePage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-[var(--gradient-hero)] text-primary-foreground">
+      {/* Hero — Prestige académique */}
+      <section className="relative flex min-h-[92vh] items-center overflow-hidden bg-[#001B3D] text-white">
+        {/* Decorative radial gradient */}
         <div
-          className="absolute inset-0 opacity-[0.12] pointer-events-none"
+          className="absolute inset-0"
+          aria-hidden
           style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, oklch(0.95 0.12 82) 0, transparent 40%), radial-gradient(circle at 80% 60%, oklch(0.7 0.18 250) 0, transparent 45%)",
+            background:
+              "radial-gradient(ellipse at 30% 30%, #002D62 0%, #001B3D 55%, #000F24 100%)",
           }}
         />
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-28">
-          <div className="flex flex-col justify-center">
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-gold">
-              <ShieldCheck className="h-3.5 w-3.5" /> Plateforme officielle
+        {/* Academic grid pattern */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden>
+          <svg className="h-full w-full" fill="none" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <pattern id="academic-grid" width="4" height="4" patternUnits="userSpaceOnUse">
+              <path d="M 4 0 L 0 0 0 4" stroke="white" strokeWidth="0.08" />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#academic-grid)" />
+          </svg>
+        </div>
+        {/* Soft gold glow */}
+        <div className="absolute -top-32 right-[-10%] h-[520px] w-[520px] rounded-full bg-[#C5A059]/10 blur-[140px]" aria-hidden />
+        <div className="absolute -bottom-40 left-[-10%] h-[480px] w-[480px] rounded-full bg-[#002D62]/40 blur-[120px]" aria-hidden />
+
+        <div className="relative mx-auto grid w-full max-w-7xl items-center gap-16 px-6 py-20 lg:grid-cols-2 lg:px-12 lg:py-28">
+          {/* Text */}
+          <div className="space-y-8 animate-in fade-in slide-in-from-left-6 duration-1000">
+            <span className="inline-flex items-center gap-3 rounded-full border border-[#C5A059]/30 bg-[#C5A059]/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#C5A059]">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C5A059] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#C5A059]" />
+              </span>
+              Plateforme officielle
             </span>
-            <h1 className="mt-6 font-display text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">
-              Institut Supérieur de <span className="text-gold">Formation en Informatique</span>
+
+            <h1 className="font-display text-5xl font-black leading-[1.1] tracking-tight md:text-6xl lg:text-7xl">
+              Institut Supérieur de <br />
+              <span className="text-[#C5A059]">Formation en Informatique</span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-primary-foreground/85">
-              Excellence, Innovation et Formation Professionnelle. Une plateforme universitaire complète pour gérer les
-              études et vérifier l'authenticité de chaque diplôme délivré.
+
+            <p className="max-w-xl text-lg leading-relaxed text-blue-100/70">
+              L'excellence académique au service de l'innovation technologique. Rejoignez l'institution
+              de référence pour les futurs experts du numérique.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/verification"
-                className="inline-flex items-center gap-2 rounded-md bg-[var(--gradient-gold)] px-5 py-3 text-sm font-semibold text-gold-foreground shadow-[var(--shadow-gold)] hover:opacity-95 transition-opacity"
-              >
-                <ShieldCheck className="h-4 w-4" /> Vérifier un diplôme
-              </Link>
+
+            <div className="flex flex-wrap items-center gap-4 pt-2">
               <a
                 href="#formations"
-                className="inline-flex items-center gap-2 rounded-md border border-white/25 bg-white/5 px-5 py-3 text-sm font-semibold text-primary-foreground backdrop-blur hover:bg-white/10 transition-colors"
+                className="inline-flex items-center gap-2 rounded-sm bg-[#C5A059] px-8 py-4 text-sm font-bold text-[#001B3D] shadow-xl shadow-[#C5A059]/20 transition-all hover:-translate-y-0.5 hover:bg-[#B38E46]"
               >
                 <GraduationCap className="h-4 w-4" /> Candidater
               </a>
               <Link
+                to="/verification"
+                className="inline-flex items-center gap-2 rounded-sm border border-white/20 bg-white/5 px-8 py-4 text-sm font-medium text-white backdrop-blur-md transition-all hover:border-white/40 hover:bg-white/10"
+              >
+                <ShieldCheck className="h-4 w-4" /> Vérifier un diplôme
+              </Link>
+              <Link
                 to="/"
-                className="inline-flex items-center gap-2 rounded-md px-5 py-3 text-sm font-semibold text-primary-foreground/90 hover:text-gold transition-colors"
+                className="inline-flex items-center gap-2 px-2 py-4 text-sm font-medium text-blue-200/80 underline decoration-[#C5A059]/40 decoration-2 underline-offset-8 transition-colors hover:text-white"
               >
                 Espace étudiant <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
 
-            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-6">
+            {/* Stats */}
+            <dl className="grid grid-cols-3 gap-8 border-t border-white/10 pt-12">
               {[
-                { k: "15+", v: "Années d'excellence" },
-                { k: "6", v: "Filières d'expertise" },
+                { k: "15+", v: "Années d'expertise" },
+                { k: "6", v: "Pôles de formation" },
                 { k: "100%", v: "Diplômes vérifiables" },
-              ].map((s) => (
-                <div key={s.v}>
-                  <dt className="font-display text-3xl font-bold text-gold">{s.k}</dt>
-                  <dd className="mt-1 text-xs uppercase tracking-wider text-primary-foreground/70">{s.v}</dd>
+              ].map((s, i) => (
+                <div
+                  key={s.v}
+                  className="animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
+                  style={{ animationDuration: "900ms", animationDelay: `${400 + i * 120}ms` }}
+                >
+                  <dt className="font-display text-3xl font-bold text-[#C5A059]">{s.k}</dt>
+                  <dd className="mt-1 text-[10px] uppercase tracking-[0.2em] text-blue-200/50">{s.v}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
-          <div className="relative flex items-center justify-center">
-            <div className="absolute -inset-6 rounded-3xl bg-gold/15 blur-3xl" aria-hidden />
-            <div className="relative rounded-3xl border border-white/15 bg-white/5 p-8 backdrop-blur-md shadow-[var(--shadow-elegant)]">
-              <img src={logo.url} alt="Logo ISFI" className="mx-auto h-56 w-auto drop-shadow-2xl" />
-              <div className="mt-6 grid grid-cols-2 gap-3 text-xs">
-                <div className="rounded-lg border border-white/15 bg-white/5 p-3">
-                  <QrCode className="h-5 w-5 text-gold" />
-                  <p className="mt-2 font-semibold">QR Code unique</p>
-                  <p className="text-primary-foreground/70">Sur chaque diplôme</p>
+          {/* Seal card */}
+          <div className="relative animate-in fade-in zoom-in-95 duration-1000 delay-200">
+            <div className="absolute -inset-6 rounded-3xl bg-[#C5A059]/10 blur-3xl" aria-hidden />
+            <div className="relative rounded-lg bg-white p-10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.5)] transition-transform duration-700 lg:rotate-2 lg:hover:rotate-0">
+              <div className="pointer-events-none absolute inset-4 rounded border border-[#001B3D]/5" />
+              <img src={logo.url} alt="Sceau ISFI" className="mx-auto h-44 w-auto" />
+              <p className="mt-8 border-t border-[#001B3D]/10 pt-6 text-center font-display text-[10px] font-bold uppercase tracking-[0.3em] text-[#001B3D]">
+                Sceau de Certification Officiel
+              </p>
+            </div>
+
+            {/* QR mini card */}
+            <div className="absolute -bottom-8 -left-8 rotate-[-6deg] rounded-md border border-slate-100 bg-white p-4 shadow-2xl transition-transform hover:rotate-[-2deg]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded bg-[#001B3D] text-[#C5A059]">
+                  <QrCode className="h-5 w-5" />
                 </div>
-                <div className="rounded-lg border border-white/15 bg-white/5 p-3">
-                  <Award className="h-5 w-5 text-gold" />
-                  <p className="mt-2 font-semibold">Signature numérique</p>
-                  <p className="text-primary-foreground/70">Authenticité garantie</p>
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Authentification</p>
+                  <p className="text-xs font-bold text-[#001B3D]">QR Code Sécurisé</p>
                 </div>
+              </div>
+            </div>
+
+            {/* Signature mini card */}
+            <div className="absolute -top-6 -right-6 rotate-12 rounded-md bg-[#C5A059] p-4 shadow-2xl transition-transform hover:rotate-6">
+              <div className="flex items-center gap-3 text-[#001B3D]">
+                <Award className="h-5 w-5" />
+                <p className="text-xs font-bold">Signature Numérique</p>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* Verification banner */}
       <section className="border-y border-border bg-secondary/60">
