@@ -172,64 +172,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Why verify */}
-      <section className="bg-secondary/40 py-20">
-        <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-gold">Authenticité</span>
-            <h2 className="mt-3 font-display text-3xl font-bold text-primary sm:text-4xl">
-              Chaque diplôme ISFI est vérifiable en ligne
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Notre plateforme délivre des diplômes sécurisés, signés numériquement et accompagnés d'un QR Code unique.
-              Un scan suffit pour confirmer l'identité du diplômé, la filière et la mention obtenue.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {[
-                "Numéro unique par diplôme (ex : ISFI-2017-150129)",
-                "QR Code redirigeant vers la page officielle",
-                "Cachet et signature électroniques",
-                "Filigrane ISFI et archivage numérique sécurisé",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-success" />
-                  <span className="text-foreground/85">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="relative">
-            <div className="rounded-2xl border border-border bg-card p-8 shadow-[var(--shadow-elegant)]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-muted-foreground">Diplôme</p>
-                  <p className="font-display text-xl font-semibold text-primary">ISFI-2017-150129</p>
-                </div>
-                <div className="rounded-lg bg-success/10 px-3 py-1.5 text-xs font-semibold text-success">
-                  ✓ Authentique
-                </div>
-              </div>
-              <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
-                <Field label="Nom" value="CHEIKH MBACKE KHARMA" />
-                <Field label="Année" value="2016 — 2017" />
-                <Field label="Diplôme" value="Licence (Bac+3)" />
-                <Field label="Mention" value="Bien" />
-                <Field label="Option" value="Admin. Systèmes & Réseaux" />
-                <Field label="Établissement" value="ISFI" />
-              </div>
-              <div className="mt-6 flex items-center gap-4 rounded-xl border border-dashed border-border bg-secondary/60 p-4">
-                <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <QrCode className="h-8 w-8" />
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Scannez le QR Code pour accéder à la page officielle de vérification du diplôme.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <SiteFooter />
     </div>
