@@ -19,6 +19,7 @@ import {
   FileText,
 } from "lucide-react";
 import diplomaSample from "@/assets/diploma-sample.png.asset.json";
+import { QRCodeSVG } from "qrcode.react";
 
 export const Route = createFileRoute("/verification")({
   validateSearch: z.object({ n: z.string().optional() }),
