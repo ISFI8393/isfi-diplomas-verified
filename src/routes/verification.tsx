@@ -17,7 +17,11 @@ import {
   Loader2,
   Download,
   FileText,
+  History,
+  Globe,
+  Monitor,
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import diplomaSample from "@/assets/diploma-sample.png.asset.json";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -95,7 +99,20 @@ function VerificationPage() {
     setResult(null);
 
     try {
-      const { data, error } = await supabase.rpc("verify_diploma", { p_numero: key });
+      // Capture client IP (best effort)
+      let ip: string | null = null;
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        if (res.ok) ip = (await res.json()).ip ?? null;
+      } catch {
+        /* ignore */
+      }
+
+      const { data, error } = await supabase.rpc("verify_diploma", {
+        p_numero: key,
+        p_ip: ip,
+        p_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
 
       if (error) {
         console.error(error);
@@ -146,7 +163,7 @@ function VerificationPage() {
                 <input
                   value={numero}
                   onChange={(e) => setNumero(e.target.value)}
-                  placeholder="ISFI-2017-150129"
+                  placeholder="Saisir le numéro du diplôme"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
                 />
               </div>
@@ -339,7 +356,129 @@ function DiplomaCard({ result }: { result: DiplomaResult }) {
           Reproduction officielle du diplôme délivré par l'Institut Supérieur de Formation en Informatique
         </p>
       </div>
+
+      <VerificationHistory numero={result.numero_diplome} />
     </article>
+  );
+}
+
+type VerifLog = {
+  id: string;
+  numero_diplome: string;
+  ip: string | null;
+  user_agent: string | null;
+  success: boolean;
+  date_verification: string;
+};
+
+function VerificationHistory({ numero }: { numero: string }) {
+  const { user, isAdminLevel, hasRole } = useAuth();
+  const canView = !!user && (isAdminLevel || hasRole("verificateur"));
+  const [logs, setLogs] = useState<VerifLog[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!canView) return;
+    setLoading(true);
+    setError(null);
+    (async () => {
+      const { data, error } = await supabase.rpc("get_verification_history", {
+        p_numero: numero,
+      });
+      if (error) setError(error.message);
+      else setLogs((data ?? []) as VerifLog[]);
+      setLoading(false);
+    })();
+  }, [numero, canView]);
+
+  if (!canView) return null;
+
+  return (
+    <div className="border-t border-border bg-card p-6 sm:p-8">
+      <div className="mb-4 flex items-center gap-2">
+        <History className="h-5 w-5 text-gold" />
+        <h3 className="font-display text-lg font-semibold text-primary">
+          Historique des vérifications
+        </h3>
+        {logs && (
+          <span className="ml-2 rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold text-muted-foreground">
+            {logs.length}
+          </span>
+        )}
+      </div>
+
+      {loading && (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" /> Chargement de l'historique…
+        </div>
+      )}
+
+      {error && (
+        <p className="text-sm text-destructive">
+          Impossible de charger l'historique : {error}
+        </p>
+      )}
+
+      {logs && logs.length === 0 && (
+        <p className="text-sm text-muted-foreground">
+          Aucune consultation enregistrée pour ce diplôme.
+        </p>
+      )}
+
+      {logs && logs.length > 0 && (
+        <div className="overflow-hidden rounded-lg border border-border">
+          <table className="w-full text-sm">
+            <thead className="bg-secondary/60 text-left text-xs uppercase tracking-wider text-muted-foreground">
+              <tr>
+                <th className="px-3 py-2 font-semibold">Date</th>
+                <th className="px-3 py-2 font-semibold">Adresse IP</th>
+                <th className="px-3 py-2 font-semibold">Navigateur</th>
+                <th className="px-3 py-2 font-semibold">Statut</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {logs.map((log) => (
+                <tr key={log.id} className="hover:bg-accent/40">
+                  <td className="px-3 py-2 font-mono text-xs">
+                    {new Date(log.date_verification).toLocaleString("fr-FR")}
+                  </td>
+                  <td className="px-3 py-2">
+                    <span className="inline-flex items-center gap-1.5 font-mono text-xs">
+                      <Globe className="h-3 w-3 text-muted-foreground" />
+                      {log.ip ?? "—"}
+                    </span>
+                  </td>
+                  <td className="px-3 py-2">
+                    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground max-w-[280px] truncate">
+                      <Monitor className="h-3 w-3 flex-none" />
+                      <span className="truncate" title={log.user_agent ?? ""}>
+                        {log.user_agent ?? "—"}
+                      </span>
+                    </span>
+                  </td>
+                  <td className="px-3 py-2">
+                    {log.success ? (
+                      <span className="inline-flex items-center rounded-full bg-success/10 px-2 py-0.5 text-xs font-semibold text-success">
+                        ✓ Succès
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-semibold text-destructive">
+                        ✗ Échec
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <p className="mt-3 text-xs text-muted-foreground italic">
+        Historique visible uniquement par les administrateurs et vérificateurs.
+      </p>
+    </div>
   );
 }
 
