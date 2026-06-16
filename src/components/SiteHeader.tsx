@@ -22,12 +22,6 @@ export function SiteHeader() {
           <a href="/#contact" className="hover:text-primary transition-colors">Contact</a>
         </nav>
         <div className="flex items-center gap-2">
-          <Link
-            to="/verification"
-            className="hidden sm:inline-flex items-center rounded-md border border-border bg-background px-3.5 py-2 text-sm font-medium text-foreground hover:bg-accent transition-colors"
-          >
-            Vérifier
-          </Link>
           {user ? (
             <Link
               to="/admin"
