@@ -16,7 +16,9 @@ import {
   User,
   Loader2,
   Download,
+  FileText,
 } from "lucide-react";
+import diplomaSample from "@/assets/diploma-sample.png.asset.json";
 
 export const Route = createFileRoute("/verification")({
   validateSearch: z.object({ n: z.string().optional() }),
@@ -282,6 +284,35 @@ function DiplomaCard({ result }: { result: DiplomaResult }) {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="border-t border-border bg-secondary/30 p-6 sm:p-8">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <FileText className="h-5 w-5 text-gold" />
+            <h3 className="font-display text-lg font-semibold text-primary">
+              Document officiel du diplôme
+            </h3>
+          </div>
+          <a
+            href={diplomaSample.url}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-semibold text-primary hover:bg-accent transition-colors"
+          >
+            <Download className="h-3.5 w-3.5" /> Voir en plein écran
+          </a>
+        </div>
+        <div className="overflow-hidden rounded-xl border border-border bg-white shadow-[var(--shadow-elegant)]">
+          <img
+            src={diplomaSample.url}
+            alt={`Diplôme officiel de ${result.nom_complet}`}
+            className="w-full h-auto"
+          />
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground text-center italic">
+          Reproduction officielle du diplôme délivré par l'Institut Supérieur de Formation en Informatique
+        </p>
       </div>
     </article>
   );
