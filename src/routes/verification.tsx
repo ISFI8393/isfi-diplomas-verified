@@ -16,7 +16,9 @@ import {
   User,
   Loader2,
   Download,
+  FileText,
 } from "lucide-react";
+import diplomaSample from "@/assets/diploma-sample.png.asset.json";
 
 export const Route = createFileRoute("/verification")({
   validateSearch: z.object({ n: z.string().optional() }),
