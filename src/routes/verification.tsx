@@ -382,13 +382,14 @@ function VerificationHistory({ numero }: { numero: string }) {
     if (!canView) return;
     setLoading(true);
     setError(null);
-    supabase
-      .rpc("get_verification_history", { p_numero: numero })
-      .then(({ data, error }) => {
-        if (error) setError(error.message);
-        else setLogs((data ?? []) as VerifLog[]);
-      })
-      .finally(() => setLoading(false));
+    (async () => {
+      const { data, error } = await supabase.rpc("get_verification_history", {
+        p_numero: numero,
+      });
+      if (error) setError(error.message);
+      else setLogs((data ?? []) as VerifLog[]);
+      setLoading(false);
+    })();
   }, [numero, canView]);
 
   if (!canView) return null;
