@@ -363,6 +363,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_verification_history: {
+        Args: { p_numero: string }
+        Returns: {
+          date_verification: string
+          id: string
+          ip: string
+          numero_diplome: string
+          success: boolean
+          user_agent: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -371,24 +382,43 @@ export type Database = {
         Returns: boolean
       }
       is_admin_level: { Args: { _user_id: string }; Returns: boolean }
-      verify_diploma: {
-        Args: { p_numero: string }
-        Returns: {
-          annee_academique: string
-          date_delivrance: string
-          date_naissance: string
-          date_obtention: string
-          diploma_pdf_url: string
-          etablissement: string
-          mention: string
-          nom_complet: string
-          nom_diplome: string
-          numero_diplome: string
-          option: string
-          pdf_url: string
-          photo_url: string
-        }[]
-      }
+      verify_diploma:
+        | {
+            Args: { p_numero: string }
+            Returns: {
+              annee_academique: string
+              date_delivrance: string
+              date_naissance: string
+              date_obtention: string
+              diploma_pdf_url: string
+              etablissement: string
+              mention: string
+              nom_complet: string
+              nom_diplome: string
+              numero_diplome: string
+              option: string
+              pdf_url: string
+              photo_url: string
+            }[]
+          }
+        | {
+            Args: { p_ip?: string; p_numero: string; p_user_agent?: string }
+            Returns: {
+              annee_academique: string
+              date_delivrance: string
+              date_naissance: string
+              date_obtention: string
+              diploma_pdf_url: string
+              etablissement: string
+              mention: string
+              nom_complet: string
+              nom_diplome: string
+              numero_diplome: string
+              option: string
+              pdf_url: string
+              photo_url: string
+            }[]
+          }
     }
     Enums: {
       app_role:
