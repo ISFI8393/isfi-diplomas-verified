@@ -240,9 +240,33 @@ function DiplomaCard({ result }: { result: DiplomaResult }) {
               <User className="h-12 w-12" />
             )}
           </div>
-          <div className="flex h-28 w-28 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <QrCode className="h-16 w-16" />
-          </div>
+          {(() => {
+            const verifyUrl =
+              typeof window !== "undefined"
+                ? `${window.location.origin}/verification?n=${encodeURIComponent(result.numero_diplome)}`
+                : `/verification?n=${encodeURIComponent(result.numero_diplome)}`;
+            return (
+              <a
+                href={verifyUrl}
+                target="_blank"
+                rel="noreferrer"
+                title={`Scanner / ouvrir : ${verifyUrl}`}
+                className="flex flex-col items-center gap-1.5 rounded-lg bg-white p-2 ring-1 ring-border hover:ring-primary transition-all"
+              >
+                <QRCodeSVG
+                  value={verifyUrl}
+                  size={104}
+                  level="M"
+                  bgColor="#ffffff"
+                  fgColor="#001B3D"
+                  includeMargin={false}
+                />
+                <span className="text-[9px] font-mono font-semibold text-primary tracking-tight">
+                  {result.numero_diplome}
+                </span>
+              </a>
+            );
+          })()}
         </div>
 
         <div>
