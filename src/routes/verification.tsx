@@ -95,7 +95,20 @@ function VerificationPage() {
     setResult(null);
 
     try {
-      const { data, error } = await supabase.rpc("verify_diploma", { p_numero: key });
+      // Capture client IP (best effort)
+      let ip: string | null = null;
+      try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        if (res.ok) ip = (await res.json()).ip ?? null;
+      } catch {
+        /* ignore */
+      }
+
+      const { data, error } = await supabase.rpc("verify_diploma", {
+        p_numero: key,
+        p_ip: ip,
+        p_user_agent: typeof navigator !== "undefined" ? navigator.userAgent : null,
+      });
 
       if (error) {
         console.error(error);
