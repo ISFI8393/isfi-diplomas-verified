@@ -17,7 +17,11 @@ import {
   Loader2,
   Download,
   FileText,
+  History,
+  Globe,
+  Monitor,
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import diplomaSample from "@/assets/diploma-sample.png.asset.json";
 import { QRCodeSVG } from "qrcode.react";
 
