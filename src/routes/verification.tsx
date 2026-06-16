@@ -159,7 +159,7 @@ function VerificationPage() {
                 <input
                   value={numero}
                   onChange={(e) => setNumero(e.target.value)}
-                  placeholder="ISFI-2017-150129"
+                  placeholder="Saisir le numéro du diplôme"
                   className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground/60"
                 />
               </div>
