@@ -75,7 +75,7 @@ function VerificationPage() {
   const [numero, setNumero] = useState(n ?? "");
   
   const [result, setResult] = useState<DiplomaResult | null>(null);
-  const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error" | "rate_limited">("idle");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -115,8 +115,13 @@ function VerificationPage() {
       });
 
       if (error) {
-        console.error(error);
-        setStatus("error");
+        const msg = (error.message || "").toLowerCase();
+        if (msg.includes("rate_limited") || (error as { code?: string }).code === "P0001") {
+          setStatus("rate_limited");
+        } else {
+          console.error(error);
+          setStatus("error");
+        }
       } else if (data && data.length > 0) {
         setResult(data[0] as DiplomaResult);
         setStatus("found");
@@ -216,6 +221,18 @@ function VerificationPage() {
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
               Une erreur est survenue. Veuillez réessayer.
+            </p>
+          </div>
+        )}
+
+        {status === "rate_limited" && (
+          <div className="rounded-2xl border border-amber-400/40 bg-amber-50 p-6 text-center">
+            <p className="font-display text-lg font-semibold text-amber-700">
+              Trop de tentatives
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Pour prévenir les abus, vos vérifications sont temporairement bloquées.
+              Réessayez dans quelques minutes.
             </p>
           </div>
         )}
