@@ -115,8 +115,13 @@ function VerificationPage() {
       });
 
       if (error) {
-        console.error(error);
-        setStatus("error");
+        const msg = (error.message || "").toLowerCase();
+        if (msg.includes("rate_limited") || (error as { code?: string }).code === "P0001") {
+          setStatus("rate_limited");
+        } else {
+          console.error(error);
+          setStatus("error");
+        }
       } else if (data && data.length > 0) {
         setResult(data[0] as DiplomaResult);
         setStatus("found");
