@@ -77,9 +77,9 @@ function VerificationsAnalytics() {
       const [statsRes, dailyRes] = await Promise.all([
         supabase.rpc("get_verification_stats_filtered", {
           p_days: days,
-          p_program_id: programId || null,
-          p_status: status || null,
-          p_search: search || null,
+          p_program_id: programId || undefined,
+          p_status: status || undefined,
+          p_search: search || undefined,
           p_limit: 200,
         }),
         supabase.rpc("get_verification_daily_trend", { p_days: days }),
