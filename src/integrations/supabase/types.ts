@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_alerts: {
+        Row: {
+          created_at: string
+          details: Json
+          id: string
+          ip: string | null
+          kind: string
+          notified: boolean
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          id?: string
+          ip?: string | null
+          kind: string
+          notified?: boolean
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          id?: string
+          ip?: string | null
+          kind?: string
+          notified?: boolean
+        }
+        Relationships: []
+      }
       auth_audit_logs: {
         Row: {
           created_at: string
@@ -363,6 +390,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_admin_alerts: {
+        Args: { p_limit?: number }
+        Returns: {
+          created_at: string
+          details: Json
+          id: string
+          ip: string
+          kind: string
+          notified: boolean
+        }[]
+      }
+      get_blocked_ips: {
+        Args: never
+        Returns: {
+          ip: string
+          is_active: boolean
+          last_block: string
+          last_unblock: string
+          last_user_agent: string
+          total_blocks: number
+        }[]
+      }
       get_verification_daily_trend: {
         Args: { p_days?: number }
         Returns: {
@@ -383,6 +432,36 @@ export type Database = {
           user_agent: string
         }[]
       }
+      get_verification_history_paginated: {
+        Args: { p_limit?: number; p_numero: string; p_offset?: number }
+        Returns: {
+          date_verification: string
+          id: string
+          ip: string
+          numero_diplome: string
+          success: boolean
+          total_count: number
+          user_agent: string
+        }[]
+      }
+      get_verification_stats_filtered: {
+        Args: {
+          p_days?: number
+          p_limit?: number
+          p_program_id?: string
+          p_search?: string
+          p_status?: string
+        }
+        Returns: {
+          fail_count: number
+          last_at: string
+          nom_complet: string
+          numero_diplome: string
+          program_id: string
+          success_count: number
+          total: number
+        }[]
+      }
       get_verification_stats_per_diploma: {
         Args: { p_limit?: number }
         Returns: {
@@ -400,6 +479,7 @@ export type Database = {
         Returns: boolean
       }
       is_admin_level: { Args: { _user_id: string }; Returns: boolean }
+      unblock_ip: { Args: { p_ip: string }; Returns: undefined }
       verify_diploma:
         | {
             Args: { p_numero: string }
