@@ -363,6 +363,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_verification_daily_trend: {
+        Args: { p_days?: number }
+        Returns: {
+          blocked_count: number
+          day: string
+          success_count: number
+          total: number
+        }[]
+      }
       get_verification_history: {
         Args: { p_numero: string }
         Returns: {
@@ -372,6 +381,15 @@ export type Database = {
           numero_diplome: string
           success: boolean
           user_agent: string
+        }[]
+      }
+      get_verification_stats_per_diploma: {
+        Args: { p_limit?: number }
+        Returns: {
+          last_at: string
+          numero_diplome: string
+          success_count: number
+          total: number
         }[]
       }
       has_role: {
