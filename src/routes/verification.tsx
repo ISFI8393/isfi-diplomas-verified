@@ -75,7 +75,7 @@ function VerificationPage() {
   const [numero, setNumero] = useState(n ?? "");
   
   const [result, setResult] = useState<DiplomaResult | null>(null);
-  const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "found" | "not_found" | "error" | "rate_limited">("idle");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
