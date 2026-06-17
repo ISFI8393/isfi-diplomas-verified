@@ -12,6 +12,8 @@ import {
   Loader2,
   UserCog,
   Activity,
+  ShieldOff,
+  Bell,
 } from "lucide-react";
 import logo from "@/assets/isfi-logo.png.asset.json";
 
@@ -23,6 +25,8 @@ type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?
 const nav: NavItem[] = [
   { to: "/admin", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
   { to: "/admin/verifications", label: "Vérifications", icon: Activity },
+  { to: "/admin/alerts", label: "Alertes", icon: Bell, adminOnly: true },
+  { to: "/admin/blocked-ips", label: "IP bloquées", icon: ShieldOff, adminOnly: true },
   { to: "/admin/users", label: "Utilisateurs", icon: UserCog, adminOnly: true },
   { to: "/admin/programs", label: "Formations", icon: BookOpen, adminOnly: true },
   { to: "/admin/students", label: "Étudiants", icon: GraduationCap },

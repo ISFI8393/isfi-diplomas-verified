@@ -21,6 +21,9 @@ import { Route as AuthenticatedAdminTeachersRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminStudentsRouteImport } from './routes/_authenticated/admin/students'
 import { Route as AuthenticatedAdminProgramsRouteImport } from './routes/_authenticated/admin/programs'
 import { Route as AuthenticatedAdminDiplomasRouteImport } from './routes/_authenticated/admin/diplomas'
+import { Route as AuthenticatedAdminBlockedIpsRouteImport } from './routes/_authenticated/admin/blocked-ips'
+import { Route as AuthenticatedAdminAlertsRouteImport } from './routes/_authenticated/admin/alerts'
+import { Route as AuthenticatedAdminVerificationsNumeroRouteImport } from './routes/_authenticated/admin/verifications.$numero'
 
 const VerificationRoute = VerificationRouteImport.update({
   id: '/verification',
@@ -86,31 +89,55 @@ const AuthenticatedAdminDiplomasRoute =
     path: '/diplomas',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminBlockedIpsRoute =
+  AuthenticatedAdminBlockedIpsRouteImport.update({
+    id: '/blocked-ips',
+    path: '/blocked-ips',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminAlertsRoute =
+  AuthenticatedAdminAlertsRouteImport.update({
+    id: '/alerts',
+    path: '/alerts',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
+const AuthenticatedAdminVerificationsNumeroRoute =
+  AuthenticatedAdminVerificationsNumeroRouteImport.update({
+    id: '/$numero',
+    path: '/$numero',
+    getParentRoute: () => AuthenticatedAdminVerificationsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/verification': typeof VerificationRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
+  '/admin/alerts': typeof AuthenticatedAdminAlertsRoute
+  '/admin/blocked-ips': typeof AuthenticatedAdminBlockedIpsRoute
   '/admin/diplomas': typeof AuthenticatedAdminDiplomasRoute
   '/admin/programs': typeof AuthenticatedAdminProgramsRoute
   '/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/admin/teachers': typeof AuthenticatedAdminTeachersRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
-  '/admin/verifications': typeof AuthenticatedAdminVerificationsRoute
+  '/admin/verifications': typeof AuthenticatedAdminVerificationsRouteWithChildren
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/admin/verifications/$numero': typeof AuthenticatedAdminVerificationsNumeroRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/verification': typeof VerificationRoute
+  '/admin/alerts': typeof AuthenticatedAdminAlertsRoute
+  '/admin/blocked-ips': typeof AuthenticatedAdminBlockedIpsRoute
   '/admin/diplomas': typeof AuthenticatedAdminDiplomasRoute
   '/admin/programs': typeof AuthenticatedAdminProgramsRoute
   '/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/admin/teachers': typeof AuthenticatedAdminTeachersRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
-  '/admin/verifications': typeof AuthenticatedAdminVerificationsRoute
+  '/admin/verifications': typeof AuthenticatedAdminVerificationsRouteWithChildren
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/admin/verifications/$numero': typeof AuthenticatedAdminVerificationsNumeroRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -119,13 +146,16 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/verification': typeof VerificationRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
+  '/_authenticated/admin/alerts': typeof AuthenticatedAdminAlertsRoute
+  '/_authenticated/admin/blocked-ips': typeof AuthenticatedAdminBlockedIpsRoute
   '/_authenticated/admin/diplomas': typeof AuthenticatedAdminDiplomasRoute
   '/_authenticated/admin/programs': typeof AuthenticatedAdminProgramsRoute
   '/_authenticated/admin/students': typeof AuthenticatedAdminStudentsRoute
   '/_authenticated/admin/teachers': typeof AuthenticatedAdminTeachersRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
-  '/_authenticated/admin/verifications': typeof AuthenticatedAdminVerificationsRoute
+  '/_authenticated/admin/verifications': typeof AuthenticatedAdminVerificationsRouteWithChildren
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/admin/verifications/$numero': typeof AuthenticatedAdminVerificationsNumeroRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -134,6 +164,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/verification'
     | '/admin'
+    | '/admin/alerts'
+    | '/admin/blocked-ips'
     | '/admin/diplomas'
     | '/admin/programs'
     | '/admin/students'
@@ -141,11 +173,14 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/verifications'
     | '/admin/'
+    | '/admin/verifications/$numero'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/verification'
+    | '/admin/alerts'
+    | '/admin/blocked-ips'
     | '/admin/diplomas'
     | '/admin/programs'
     | '/admin/students'
@@ -153,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/verifications'
     | '/admin'
+    | '/admin/verifications/$numero'
   id:
     | '__root__'
     | '/'
@@ -160,6 +196,8 @@ export interface FileRouteTypes {
     | '/auth'
     | '/verification'
     | '/_authenticated/admin'
+    | '/_authenticated/admin/alerts'
+    | '/_authenticated/admin/blocked-ips'
     | '/_authenticated/admin/diplomas'
     | '/_authenticated/admin/programs'
     | '/_authenticated/admin/students'
@@ -167,6 +205,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/admin/verifications'
     | '/_authenticated/admin/'
+    | '/_authenticated/admin/verifications/$numero'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -262,27 +301,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDiplomasRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/blocked-ips': {
+      id: '/_authenticated/admin/blocked-ips'
+      path: '/blocked-ips'
+      fullPath: '/admin/blocked-ips'
+      preLoaderRoute: typeof AuthenticatedAdminBlockedIpsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/alerts': {
+      id: '/_authenticated/admin/alerts'
+      path: '/alerts'
+      fullPath: '/admin/alerts'
+      preLoaderRoute: typeof AuthenticatedAdminAlertsRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/verifications/$numero': {
+      id: '/_authenticated/admin/verifications/$numero'
+      path: '/$numero'
+      fullPath: '/admin/verifications/$numero'
+      preLoaderRoute: typeof AuthenticatedAdminVerificationsNumeroRouteImport
+      parentRoute: typeof AuthenticatedAdminVerificationsRoute
+    }
   }
 }
 
+interface AuthenticatedAdminVerificationsRouteChildren {
+  AuthenticatedAdminVerificationsNumeroRoute: typeof AuthenticatedAdminVerificationsNumeroRoute
+}
+
+const AuthenticatedAdminVerificationsRouteChildren: AuthenticatedAdminVerificationsRouteChildren =
+  {
+    AuthenticatedAdminVerificationsNumeroRoute:
+      AuthenticatedAdminVerificationsNumeroRoute,
+  }
+
+const AuthenticatedAdminVerificationsRouteWithChildren =
+  AuthenticatedAdminVerificationsRoute._addFileChildren(
+    AuthenticatedAdminVerificationsRouteChildren,
+  )
+
 interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminAlertsRoute: typeof AuthenticatedAdminAlertsRoute
+  AuthenticatedAdminBlockedIpsRoute: typeof AuthenticatedAdminBlockedIpsRoute
   AuthenticatedAdminDiplomasRoute: typeof AuthenticatedAdminDiplomasRoute
   AuthenticatedAdminProgramsRoute: typeof AuthenticatedAdminProgramsRoute
   AuthenticatedAdminStudentsRoute: typeof AuthenticatedAdminStudentsRoute
   AuthenticatedAdminTeachersRoute: typeof AuthenticatedAdminTeachersRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
-  AuthenticatedAdminVerificationsRoute: typeof AuthenticatedAdminVerificationsRoute
+  AuthenticatedAdminVerificationsRoute: typeof AuthenticatedAdminVerificationsRouteWithChildren
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
   {
+    AuthenticatedAdminAlertsRoute: AuthenticatedAdminAlertsRoute,
+    AuthenticatedAdminBlockedIpsRoute: AuthenticatedAdminBlockedIpsRoute,
     AuthenticatedAdminDiplomasRoute: AuthenticatedAdminDiplomasRoute,
     AuthenticatedAdminProgramsRoute: AuthenticatedAdminProgramsRoute,
     AuthenticatedAdminStudentsRoute: AuthenticatedAdminStudentsRoute,
     AuthenticatedAdminTeachersRoute: AuthenticatedAdminTeachersRoute,
     AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
-    AuthenticatedAdminVerificationsRoute: AuthenticatedAdminVerificationsRoute,
+    AuthenticatedAdminVerificationsRoute:
+      AuthenticatedAdminVerificationsRouteWithChildren,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 
