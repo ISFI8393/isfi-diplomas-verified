@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   Loader2,
   UserCog,
+  Activity,
 } from "lucide-react";
 import logo from "@/assets/isfi-logo.png.asset.json";
 
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/_authenticated/admin")({
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean; adminOnly?: boolean };
 const nav: NavItem[] = [
   { to: "/admin", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
+  { to: "/admin/verifications", label: "Vérifications", icon: Activity },
   { to: "/admin/users", label: "Utilisateurs", icon: UserCog, adminOnly: true },
   { to: "/admin/programs", label: "Formations", icon: BookOpen, adminOnly: true },
   { to: "/admin/students", label: "Étudiants", icon: GraduationCap },
