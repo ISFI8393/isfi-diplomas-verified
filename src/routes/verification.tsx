@@ -225,6 +225,18 @@ function VerificationPage() {
           </div>
         )}
 
+        {status === "rate_limited" && (
+          <div className="rounded-2xl border border-amber-400/40 bg-amber-50 p-6 text-center">
+            <p className="font-display text-lg font-semibold text-amber-700">
+              Trop de tentatives
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Pour prévenir les abus, vos vérifications sont temporairement bloquées.
+              Réessayez dans quelques minutes.
+            </p>
+          </div>
+        )}
+
         {status === "found" && result && <DiplomaCard result={result} />}
       </section>
 
